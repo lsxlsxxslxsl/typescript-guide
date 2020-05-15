@@ -1,2 +1,8 @@
-let a = 123;
-a = '123'
+interface Person {
+  name: string
+}
+const teacher: Person = {
+  name: 'liusixin'
+}
+
+console.log(teacher)
