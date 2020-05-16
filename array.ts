@@ -10,10 +10,11 @@ interface NumberArray {
 let fibonacc2i: NumberArray = [1, 1, 2, 3, 5];
 
 // 类数组
-function sum() {
-  let args: {
-      [index: number]: number;
-      length: number;
-      callee: Function;
-  } = arguments;
+function sum1() {
+  // let args: {
+  //     [index: number]: number;
+  //     length: number;
+  //     callee: Function;
+  // } = arguments;
+  let args: IArguments = arguments;
 }

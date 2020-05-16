@@ -12,4 +12,3 @@ let tom: Person = {
   age: 25,
   gender: 'male',
 };
-tom.id = 9527;
