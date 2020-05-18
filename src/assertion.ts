@@ -23,7 +23,7 @@ const tom1: Cat = {
   name: 'Tom',
   run() {
     console.log('run');
-  },
+  }
 };
 swim(tom1);
 

@@ -1,0 +1,27 @@
+{
+  "name": "typescript-guide",
+  "version": "1.0.0",
+  "description": "",
+  "main": "tsconfig.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "eslint": "eslint src --ext .ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lsxlsxxslxsl/typescript-guide.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lsxlsxxslxsl/typescript-guide/issues"
+  },
+  "homepage": "https://github.com/lsxlsxxslxsl/typescript-guide#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.33.0",
+    "@typescript-eslint/parser": "^2.33.0",
+    "eslint": "^7.0.0",
+    "typescript": "^3.9.2"
+  }
+}
