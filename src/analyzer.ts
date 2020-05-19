@@ -17,7 +17,14 @@ interface Content {
 }
 
 export default class Analyzer implements IAnalyzer {
-  getCourseInfo(html: string) {
+  private static instance: Analyzer;
+
+  static getInstance() {
+    if (!Analyzer.instance) Analyzer.instance = new Analyzer();
+    return Analyzer.instance;
+  }
+
+  private getCourseInfo(html: string) {
     const $ = cheerio.load(html);
     const courseList = $('.shizhan-course-wrap');
     const courseInfoList: Course[] = [];
@@ -34,7 +41,7 @@ export default class Analyzer implements IAnalyzer {
     };
   }
 
-  generateJsonContent(courseInfo: CourseResult, filePath: string) {
+  private generateJsonContent(courseInfo: CourseResult, filePath: string) {
     let fileContent: Content = {};
     if (fs.existsSync(filePath)) {
       fileContent = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
@@ -46,6 +53,6 @@ export default class Analyzer implements IAnalyzer {
   public analyze(html: string, filePath: string) {
     const courseInfo = this.getCourseInfo(html);
     const fileContent = this.generateJsonContent(courseInfo, filePath);
-    return JSON.stringify(fileContent)
+    return JSON.stringify(fileContent);
   }
 }

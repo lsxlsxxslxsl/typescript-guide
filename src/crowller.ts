@@ -10,16 +10,18 @@ export interface IAnalyzer {
 class Crowller {
   private filePath = path.resolve(__dirname, '../data/course.json');
 
-  async getRawHtml() {
+  private async getRawHtml() {
     const { text } = await superagent.get(this.url);
     return text;
   }
 
-  writeFile(content: string) {
-    fs.writeFileSync(this.filePath, content);
+  private writeFile(content: string) {
+    fs.writeFile(this.filePath, content, () => {
+      console.log('文件写入成功🍊')
+    });
   }
 
-  async initSpiderProcess() {
+  private async initSpiderProcess() {
     const html = await this.getRawHtml();
     const fileContent = analyzer.analyze(html, this.filePath);
     this.writeFile(fileContent);
@@ -32,5 +34,5 @@ class Crowller {
 
 const url = `https://coding.imooc.com/`;
 
-const analyzer = new Analyzer();
+const analyzer = Analyzer.getInstance()
 new Crowller(url, analyzer);
