@@ -19,6 +19,7 @@ interface Content {
 
 class Crowller {
   private url = `https://coding.imooc.com/`;
+  private filePath = path.resolve(__dirname, '../data/course.json');
 
   getCourseInfo(html: string) {
     const $ = cheerio.load(html);
@@ -43,21 +44,23 @@ class Crowller {
   }
 
   generateJsonContent(courseInfo: CourseResult) {
-    const filePath = path.resolve(__dirname, '../data/course.json');
     let fileContent: Content = {};
-    if (fs.existsSync(filePath)) {
-      fileContent = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    if (fs.existsSync(this.filePath)) {
+      fileContent = JSON.parse(fs.readFileSync(this.filePath, 'utf-8'));
     }
     fileContent[courseInfo.time] = courseInfo.data;
     return fileContent
   }
 
+  writeFile(content: string) {
+    fs.writeFileSync(this.filePath, content)
+  }
+
   async initSpiderProcess() {
-    const filePath = path.resolve(__dirname, '../data/course.json');
     const html = await this.getRawHtml();
     const courseInfo = this.getCourseInfo(html);
     const fileContent = this.generateJsonContent(courseInfo);
-    fs.writeFileSync(filePath, JSON.stringify(fileContent))
+    this.writeFile(JSON.stringify(fileContent)
   }
 
   constructor() {
