@@ -36,3 +36,4 @@ const url = `https://coding.imooc.com/`;
 
 const analyzer = Analyzer.getInstance()
 new Crowller(url, analyzer);
+console.log('1234')
