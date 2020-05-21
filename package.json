@@ -6,10 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "eslint": "eslint src --ext .ts",
-    "start": "ts-node ./src/crowller.ts",
+    "start": "ts-node ./src/index.ts",
     "dev:build": "tsc -w",
-    "dev:start": "nodemon node ./build/crowller.js",
-    "dev": "concurrently npm:dev:*"
+    "dev:start": "nodemon node ./build/index.js",
+    "dev": "tsc && concurrently npm:dev:*"
   },
   "nodemonConfig": {
     "ignore": [
@@ -29,6 +29,7 @@
   "homepage": "https://github.com/lsxlsxxslxsl/typescript-guide#readme",
   "devDependencies": {
     "@types/cheerio": "^0.22.18",
+    "@types/express": "^4.17.6",
     "@types/superagent": "^4.1.7",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
@@ -39,6 +40,7 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
+    "express": "^4.17.1",
     "superagent": "^5.2.2"
   }
 }

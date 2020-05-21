@@ -1,13 +1,12 @@
 import fs from 'fs';
 import path from 'path';
 import superagent from 'superagent';
-import Analyzer from './analyzer';
 
 export interface IAnalyzer {
   analyze: (html: string, filePath: string) => string;
 }
 
-class Crowller {
+export default class Crowller {
   private filePath = path.resolve(__dirname, '../data/course.json');
 
   private async getRawHtml() {
@@ -23,7 +22,7 @@ class Crowller {
 
   private async initSpiderProcess() {
     const html = await this.getRawHtml();
-    const fileContent = analyzer.analyze(html, this.filePath);
+    const fileContent = this.analyzer.analyze(html, this.filePath);
     this.writeFile(fileContent);
   }
 
@@ -32,8 +31,7 @@ class Crowller {
   }
 }
 
-const url = `https://coding.imooc.com/`;
+// const url = `https://coding.imooc.com/`;
 
-const analyzer = Analyzer.getInstance()
-new Crowller(url, analyzer);
-console.log('1234')
+// const analyzer = Analyzer.getInstance()
+// new Crowller(url, analyzer);
