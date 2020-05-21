@@ -4,12 +4,7 @@
   "description": "",
   "main": "tsconfig.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "eslint": "eslint src --ext .ts",
-    "start": "ts-node ./src/crowller.ts",
-    "dev:build": "tsc -w",
-    "dev:start": "nodemon node ./build/crowller.js",
-    "dev": "concurrently npm:dev:*"
+    "start": "parcel ./src/index.html"
   },
   "nodemonConfig": {
     "ignore": [
@@ -34,6 +29,7 @@
     "@typescript-eslint/parser": "^2.33.0",
     "concurrently": "^5.2.0",
     "nodemon": "^2.0.4",
+    "parcel": "^2.0.0-alpha.3.2",
     "ts-node": "^8.10.1",
     "typescript": "^3.9.2"
   },
