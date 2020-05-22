@@ -1,33 +1,11 @@
-interface Person {
-  name: string;
-  age: number;
-  gender: string;
-}
+import bodyParser from 'body-parser';
+import express from 'express';
+import router from './router';
 
-// type NAME = 'name';
-// key: 'name';
-// Person['name'];
+const app = express();
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(router);
 
-// type T = 'age'
-// key: 'age'
-// Person['age']
-
-// type T = 'gender'
-// key: 'gender'
-// Person['gender']
-
-class Teacher {
-  constructor(private info: Person) {}
-  getInfo<T extends keyof Person>(key: T): Person[T] {
-    return this.info[key];
-  }
-}
-
-const teacher = new Teacher({
-  name: 'dell',
-  age: 18,
-  gender: 'male'
+app.listen(3000, () => {
+  console.log('server is start at port 3000');
 });
-
-const test = teacher.getInfo('name');
-console.log(test);
