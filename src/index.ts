@@ -1,20 +1,30 @@
-import bodyParser from 'body-parser';
-import cookieSession from 'cookie-session';
-import express from 'express';
-import router from './router';
+// 类装饰器
 
-const app = express();
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(
-  cookieSession({
-    name: 'session',
-    keys: ['liusixin'],
-    maxAge: 24 * 60 * 60 * 1000 // 24小时
-  })
-);
+function decorator() {
+  return function <T extends new (...args: any[]) => {}>(constructor: T) {
+    return class extends constructor {
+      name: string = 'liusixin';
+      getName() {
+        console.log(this.name);
+        return this.name;
+      }
+    };
+  };
+}
 
-app.use(router);
+function decoratorFunc() {
+  return function (constructor: any) {
+    constructor.prototype.getName = () => {
+      console.log('liusixin');
+    };
+  };
+}
 
-app.listen(3000, () => {
-  console.log('server is start at port 3000');
-});
+@decorator()
+class Test {}
+const test = new Test();
+
+// 返回装饰器包装的类，有语法提示
+const Test1 = decorator()(Test)
+const test1 = new Test1();
+test1.getName()
