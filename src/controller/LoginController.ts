@@ -9,12 +9,16 @@ interface RequestWithBody extends Request {
   };
 }
 
-@controller
-class LoginController {
+@controller('/')
+export class LoginController {
+  static isLogin(req: RequestWithBody): boolean {
+    return !!(req.session ? req.session.login : false);
+  }
+
   @post('/login')
-  login(req: RequestWithBody, res: Response) {
+  login(req: RequestWithBody, res: Response): void {
     const { password } = req.body;
-    const isLogin = req.session ? req.session.login : false;
+    const isLogin = LoginController.isLogin(req);
     if (isLogin) {
       res.json(getResponseData('已经登录过', null));
     } else {
@@ -28,7 +32,7 @@ class LoginController {
   }
 
   @get('/logout')
-  logout(req: RequestWithBody, res: Response) {
+  logout(req: RequestWithBody, res: Response): void {
     if (req.session) {
       req.session.login = undefined;
     }
@@ -36,8 +40,8 @@ class LoginController {
   }
 
   @get('/')
-  home(req: RequestWithBody, res: Response) {
-    const isLogin = req.session ? req.session.login : false;
+  home(req: RequestWithBody, res: Response): void {
+    const isLogin = LoginController.isLogin(req);
     if (isLogin) {
       res.send(`
       <html>

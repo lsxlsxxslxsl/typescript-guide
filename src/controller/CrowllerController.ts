@@ -13,16 +13,16 @@ interface RequestWithBody extends Request {
   };
 }
 
-const checkLogin = (req: Request, res: Response, next: NextFunction) => {
-  const isLogin = req.session ? req.session.login : false;
+const checkLogin = (req: Request, res: Response, next: NextFunction): void => {
+  const isLogin = !!(req.session ? req.session.login : false);
   isLogin ? next() : res.json(getResponseData('请先登录', null));
 };
 
-@controller
-class LoginController {
+@controller('/')
+export class CrowllerController {
   @get('/getData')
   @use(checkLogin)
-  getData(req: RequestWithBody, res: Response) {
+  getData(req: RequestWithBody, res: Response): void {
     const url = `https://coding.imooc.com/`;
     const analyzer = Analyzer.getInstance();
     new Crowller(url, analyzer);
@@ -31,7 +31,7 @@ class LoginController {
 
   @get('/showData')
   @use(checkLogin)
-  showData(req: RequestWithBody, res: Response) {
+  showData(req: RequestWithBody, res: Response): void {
     try {
       const file = path.resolve(__dirname, '../../data/course.json');
       const data = fs.readFileSync(file, 'utf-8');
