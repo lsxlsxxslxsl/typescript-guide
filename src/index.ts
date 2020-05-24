@@ -2,8 +2,8 @@ import bodyParser from 'body-parser';
 import cookieSession from 'cookie-session';
 import express from 'express';
 import './controller/CrowllerController';
-import { router } from './controller/decorator';
 import './controller/LoginController';
+import router from './router';
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));

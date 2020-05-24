@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import 'reflect-metadata';
+import { controller, get, post } from '../decorator';
 import { getResponseData } from '../utils/helper';
-import { controller, get, post } from './decorator';
 
 interface RequestWithBody extends Request {
   body: {

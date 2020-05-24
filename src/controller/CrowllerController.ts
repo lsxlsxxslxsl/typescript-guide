@@ -2,10 +2,10 @@ import { NextFunction, Request, Response } from 'express';
 import fs from 'fs';
 import path from 'path';
 import 'reflect-metadata';
+import { controller, get, use } from '../decorator';
 import Analyzer from '../utils/analyzer';
 import Crowller from '../utils/crowller';
 import { getResponseData } from '../utils/helper';
-import { controller, get, use } from './decorator';
 
 interface RequestWithBody extends Request {
   body: {
