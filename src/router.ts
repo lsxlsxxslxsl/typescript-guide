@@ -7,7 +7,7 @@ import { getResponseData } from './utils/helper';
 
 interface RequestWithBody extends Request {
   body: {
-    [propName: string]: string | undefined;
+    [key: string]: string | undefined;
   };
 }
 
@@ -18,31 +18,7 @@ const checkLogin = (req: Request, res: Response, next: NextFunction) => {
 
 const router = Router();
 
-router.get('/', (req: Request, res: Response) => {
-  const isLogin = req.session ? req.session.login : false;
-  if (isLogin) {
-    res.send(`
-      <html>
-        <body>
-          <a href="/showData">展示数据</a>
-          <a href="/getData">爬取数据</a>
-          <a href="/logout">退出登录</a>
-        </body>
-      </html>
-    `);
-  } else {
-    res.send(`
-      <html>
-        <body>
-          <form method="post" action="/login">
-            <input type="password" name="password" />
-            <button>登录</button>
-          </form>
-        </body>
-      </html>
-    `);
-  }
-});
+router.get('/', () => {});
 
 router.post('/login', (req: RequestWithBody, res: Response) => {
   const { password } = req.body;
