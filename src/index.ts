@@ -1,30 +1,33 @@
-// 类装饰器
+const userInfo: any = undefined;
 
-function decorator() {
-  return function <T extends new (...args: any[]) => {}>(constructor: T) {
-    return class extends constructor {
-      name: string = 'liusixin';
-      getName() {
-        console.log(this.name);
-        return this.name;
+function catchError(msg: string) {
+  return function(target: any, key: string, descriptor: PropertyDescriptor) {
+    const fn = descriptor.value;
+    descriptor.value = function() {
+      try {
+        fn();
+      } catch (e) {
+        console.log(msg);
       }
     };
   };
 }
 
-function decoratorFunc() {
-  return function (constructor: any) {
-    constructor.prototype.getName = () => {
-      console.log('liusixin');
-    };
-  };
+class Test {
+  @catchError('userInfo.name 不存在')
+  getName() {
+    return userInfo.name;
+  }
+  @catchError('userInfo.age 不存在')
+  getAge() {
+    return userInfo.age;
+  }
+  @catchError('userInfo.gender 不存在')
+  getGender() {
+    return userInfo.gender;
+  }
 }
 
-@decorator()
-class Test {}
 const test = new Test();
-
-// 返回装饰器包装的类，有语法提示
-const Test1 = decorator()(Test)
-const test1 = new Test1();
-test1.getName()
+test.getName();
+test.getAge();
