@@ -18,6 +18,11 @@ const checkLogin = (req: Request, res: Response, next: NextFunction): void => {
   isLogin ? next() : res.json(getResponseData('请先登录', null));
 };
 
+const test = (req: Request, res: Response, next: NextFunction): void => {
+  console.log('test 中间件')
+  next()
+};
+
 @controller('/')
 export class CrowllerController {
   @get('/getData')
@@ -31,6 +36,7 @@ export class CrowllerController {
 
   @get('/showData')
   @use(checkLogin)
+  @use(test)
   showData(req: RequestWithBody, res: Response): void {
     try {
       const file = path.resolve(__dirname, '../../data/course.json');
