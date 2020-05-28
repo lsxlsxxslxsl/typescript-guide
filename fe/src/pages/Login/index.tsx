@@ -1,6 +1,9 @@
-import { Button, Form, Icon, Input } from 'antd';
+import { Button, Form, Icon, Input, message } from 'antd';
 import { WrappedFormUtils } from 'antd/lib/form/Form';
+import axios from 'axios';
+import qs from 'qs';
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import './login.css';
 
 interface FormFields {
@@ -11,18 +14,45 @@ interface Props {
 }
 
 class LoginForm extends Component<Props> {
+  state = {
+    isLogin: false
+  };
+
   handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        axios
+          .post(
+            '/api/login',
+            qs.stringify({
+              password: values.password
+            }),
+            {
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+              }
+            }
+          )
+          .then((res) => {
+            if (res.data?.data) {
+              this.setState({
+                isLogin: true
+              });
+            } else {
+              message.error('登录失败');
+            }
+          });
       }
     });
   };
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    return (
+    const { isLogin } = this.state;
+    return isLogin ? (
+      <Redirect to="/" />
+    ) : (
       <div className="login-page">
         <Form onSubmit={this.handleSubmit} className="login-form">
           <Form.Item>
