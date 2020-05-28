@@ -9,13 +9,13 @@ interface RequestWithBody extends Request {
   };
 }
 
-@controller('/')
+@controller('/api')
 export class LoginController {
   static isLogin(req: RequestWithBody): boolean {
     return !!(req.session ? req.session.login : false);
   }
 
-  @get('/api/isLogin')
+  @get('/isLogin')
   isLogin(req: RequestWithBody, res: Response): void {
     const isLogin = LoginController.isLogin(req);
     res.json(getResponseData('', isLogin));
@@ -26,13 +26,13 @@ export class LoginController {
     const { password } = req.body;
     const isLogin = LoginController.isLogin(req);
     if (isLogin) {
-      res.json(getResponseData('已经登录过', null));
+      res.json(getResponseData('已经登录过', true));
     } else {
       if (password === '123' && req.session) {
         req.session.login = true;
-        res.redirect('/');
+        res.json(getResponseData('登录成功', true));
       } else {
-        res.json(getResponseData('密码错误', null));
+        res.json(getResponseData('密码错误', false));
       }
     }
   }
@@ -42,33 +42,6 @@ export class LoginController {
     if (req.session) {
       req.session.login = undefined;
     }
-    res.redirect('/');
-  }
-
-  @get('/')
-  home(req: RequestWithBody, res: Response): void {
-    const isLogin = LoginController.isLogin(req);
-    if (isLogin) {
-      res.send(`
-      <html>
-        <body>
-          <a href='/getData'>爬取内容</a>
-          <a href='/showData'>展示内容</a>
-          <a href='/logout'>退出</a>
-        </body>
-      </html>
-    `);
-    } else {
-      res.send(`
-      <html>
-        <body>
-          <form method="post" action="/login">
-            <input type="password" name="password" />
-            <button>登陆</button>
-          </form>
-        </body>
-      </html>
-    `);
-    }
+    res.json(getResponseData('退出登录', true));
   }
 }
