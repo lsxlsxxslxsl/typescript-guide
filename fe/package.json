@@ -11,12 +11,14 @@
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
     "antd": "^3.26.17",
+    "axios": "^0.19.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "typescript": "^3.7.5"
   },
+  "proxy": "http://localhost:7000",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

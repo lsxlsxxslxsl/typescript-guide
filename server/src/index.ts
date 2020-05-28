@@ -17,6 +17,6 @@ app.use(
 
 app.use(router);
 
-app.listen(3000, () => {
-  console.log('server is start at port 3000');
+app.listen(7000, () => {
+  console.log('server is start at port 7000');
 });
