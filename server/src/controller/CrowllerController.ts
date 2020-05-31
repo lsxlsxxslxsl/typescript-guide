@@ -13,15 +13,6 @@ interface RequestWithBody extends Request {
   };
 }
 
-interface CourseItem {
-  title: string;
-  count: number;
-}
-
-interface DataStructure {
-  [key: string]: CourseItem[];
-}
-
 const checkLogin = (req: Request, res: Response, next: NextFunction): void => {
   const isLogin = !!(req.session ? req.session.login : false);
   isLogin ? next() : res.json(getResponseData('请先登录', null));
@@ -40,7 +31,7 @@ export class CrowllerController {
     const url = `https://coding.imooc.com/`;
     const analyzer = Analyzer.getInstance();
     new Crowller(url, analyzer);
-    res.json(getResponseData<boolean>('爬取成功', true));
+    res.json(getResponseData<responseResult.getData>('爬取成功', true));
   }
 
   @get('/showData')
@@ -50,9 +41,9 @@ export class CrowllerController {
     try {
       const file = path.resolve(__dirname, '../../data/course.json');
       const data = fs.readFileSync(file, 'utf-8');
-      res.json(getResponseData<DataStructure>('成功', JSON.parse(data)));
+      res.json(getResponseData<responseResult.showData>('成功', JSON.parse(data)));
     } catch (error) {
-      res.json(getResponseData<boolean>('文件不存在', false, false));
+      res.json(getResponseData<responseResult.showData>('文件不存在', false, false));
     }
   }
 }
