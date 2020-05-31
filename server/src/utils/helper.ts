@@ -1,10 +1,10 @@
-interface Result {
+interface Result<T> {
   success: boolean;
   errMsg: string;
-  data: any;
+  data: T;
 }
 
-export const getResponseData = (errMsg: string, data: any, success: boolean = true): Result => {
+export const getResponseData = <T>(errMsg: string, data: T, success: boolean = true): Result<T> => {
   return {
     success,
     errMsg,

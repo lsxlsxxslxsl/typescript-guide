@@ -1,9 +1,9 @@
 import { Button, Form, Icon, Input, message } from 'antd';
 import { WrappedFormUtils } from 'antd/lib/form/Form';
-import axios from 'axios';
 import qs from 'qs';
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import request from '../../request';
 import './login.css';
 
 interface FormFields {
@@ -20,29 +20,26 @@ class LoginForm extends Component<Props> {
 
   handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        axios
-          .post(
-            '/api/login',
-            qs.stringify({
-              password: values.password
-            }),
-            {
-              headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-              }
+        const res = await request.post(
+          '/api/login',
+          qs.stringify({
+            password: values.password
+          }),
+          {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
             }
-          )
-          .then((res) => {
-            if (res.data?.data) {
-              this.setState({
-                isLogin: true
-              });
-            } else {
-              message.error('登录失败');
-            }
+          }
+        );
+        if (res?.data) {
+          this.setState({
+            isLogin: true
           });
+        } else {
+          message.error('登录失败');
+        }
       }
     });
   };

@@ -1,27 +1,23 @@
 import { Button, message } from 'antd';
-import axios from 'axios';
 import ReactEcharts from 'echarts-for-react';
 import moment from 'moment';
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import request from '../../request';
 import './home.css';
-
-interface LineData {
-  name: string;
-  type: string;
-  data: number[];
-}
 
 interface CourseItem {
   title: string;
   count: number;
 }
+
+interface DataStructure {
+  [key: string]: CourseItem[];
+}
 interface State {
   isLogin: boolean;
   loading: boolean;
-  data: {
-    [key: string]: CourseItem[];
-  };
+  data: DataStructure;
 }
 
 class Home extends Component {
@@ -32,7 +28,7 @@ class Home extends Component {
   };
 
   async componentDidMount() {
-    const { data } = await axios.get('/api/isLogin');
+    const { data } = await request.get('/api/isLogin');
     if (!data?.data) {
       this.setState({
         isLogin: false,
@@ -44,7 +40,7 @@ class Home extends Component {
       });
     }
 
-    const res = await axios.get('/api/showData');
+    const res = await request.get('/api/showData');
     if (res.data?.data) {
       this.setState({
         data: res.data.data
@@ -53,7 +49,7 @@ class Home extends Component {
   }
 
   handleLogoutClick = async () => {
-    const { data } = await axios.get('/api/logout');
+    const { data } = await request.get('/api/logout');
     if (data?.data) {
       this.setState({
         isLogin: false
@@ -64,8 +60,9 @@ class Home extends Component {
   };
 
   handleCrowllerClick = async () => {
-    const { data } = await axios.get('/api/getData');
-    if (data?.data) {
+    const res = await request.get('/api/getData');
+    let data: DataStructure = res.data
+    if (data) {
       message.success('爬取成功');
     } else {
       message.error('爬取失败');
@@ -90,7 +87,7 @@ class Home extends Component {
         tempData[title] ? tempData[title].push(count) : (tempData[title] = [count]);
       });
     }
-    const result: LineData[] = [];
+    const result: echarts.EChartOption.Series[] = [];
     for (let i in tempData) {
       result.push({
         name: i,
