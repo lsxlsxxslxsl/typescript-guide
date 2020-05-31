@@ -23,7 +23,7 @@ const test = (req: Request, res: Response, next: NextFunction): void => {
   next()
 };
 
-@controller('/')
+@controller('/api')
 export class CrowllerController {
   @get('/getData')
   @use(checkLogin)
@@ -31,7 +31,7 @@ export class CrowllerController {
     const url = `https://coding.imooc.com/`;
     const analyzer = Analyzer.getInstance();
     new Crowller(url, analyzer);
-    res.json(getResponseData('爬取成功', null));
+    res.json(getResponseData('爬取成功', true));
   }
 
   @get('/showData')
