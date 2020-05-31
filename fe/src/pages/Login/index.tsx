@@ -33,7 +33,8 @@ class LoginForm extends Component<Props> {
             }
           }
         );
-        if (res?.data) {
+        const data: responseResult.login = res.data;
+        if (data) {
           this.setState({
             isLogin: true
           });

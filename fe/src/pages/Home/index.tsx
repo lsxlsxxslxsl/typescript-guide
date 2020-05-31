@@ -6,18 +6,10 @@ import { Redirect } from 'react-router-dom';
 import request from '../../request';
 import './home.css';
 
-interface CourseItem {
-  title: string;
-  count: number;
-}
-
-interface DataStructure {
-  [key: string]: CourseItem[];
-}
 interface State {
   isLogin: boolean;
   loading: boolean;
-  data: DataStructure;
+  data: responseResult.DataStructure;
 }
 
 class Home extends Component {
@@ -27,30 +19,33 @@ class Home extends Component {
     data: {}
   };
 
-  async componentDidMount() {
-    const { data } = await request.get('/api/isLogin');
-    if (!data?.data) {
-      this.setState({
-        isLogin: false,
-        loading: false
-      });
-    } else {
-      this.setState({
-        loading: false
-      });
-    }
+  componentDidMount() {
+    request.get('/api/isLogin').then((res) => {
+      const data: responseResult.isLogin = res.data;
+      if (!data) {
+        this.setState({
+          isLogin: false,
+          loaded: true
+        });
+      } else {
+        this.setState({
+          loaded: true
+        });
+      }
+    });
 
-    const res = await request.get('/api/showData');
-    if (res.data?.data) {
-      this.setState({
-        data: res.data.data
-      });
-    }
+    request.get('/api/showData').then((res) => {
+      const data:responseResult.showData = res.data;
+      if (data) {
+        this.setState({ data });
+      }
+    });
   }
 
   handleLogoutClick = async () => {
-    const { data } = await request.get('/api/logout');
-    if (data?.data) {
+    const res = await request.get('/api/logout');
+    const data:responseResult.logout = res.data
+    if (data) {
       this.setState({
         isLogin: false
       });
@@ -61,7 +56,7 @@ class Home extends Component {
 
   handleCrowllerClick = async () => {
     const res = await request.get('/api/getData');
-    let data: DataStructure = res.data
+    let data: responseResult.getData = res.data;
     if (data) {
       message.success('爬取成功');
     } else {
