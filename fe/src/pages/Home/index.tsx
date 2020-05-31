@@ -8,7 +8,8 @@ import './home.css';
 class Home extends Component {
   state = {
     isLogin: true,
-    loading: true
+    loading: true,
+    data: {}
   };
 
   componentDidMount() {
